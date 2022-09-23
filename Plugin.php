@@ -2,6 +2,7 @@
 
 use Backend;
 use System\Classes\PluginBase;
+use Event;
 
 /**
  * Plugin Information File
@@ -17,9 +18,9 @@ class Plugin extends PluginBase
     {
         return [
             'name'        => 'Duplicate/Clone Static Pages',
-            'description' => 'No description provided yet...',
+            'description' => 'Duplicate/Clone functionality for the Static Pages plugin for October CMS.',
             'author'      => 'BlakeJones',
-            'icon'        => 'icon-leaf'
+            'icon'        => 'icon-clone'
         ];
     }
 
@@ -40,9 +41,16 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        Event::listen('backend.page.beforeDisplay', function($controller, $action, $params) {
-            $controller->addJs('/plugins/xeor/duplicate/assets/js/duplicate.js');
+        Event::listen('backend.page.beforeDisplay', function($controller) {
+            $controller->addJs('/plugins/blakejones/duplicateclonestaticpages/assets/js/duplicate-sp-btn.js');
+            $controller->addCss('/plugins/blakejones/duplicateclonestaticpages/assets/css/duplicate-sp-btn.css');
         });
+
+        /*\RainLab\Pages\Controllers\Index::extend(function($controller) {
+            $model->addDynamicMethod('getRecipesCategoryOptions', function() {
+                return RecipeCategory::get()->pluck('name', 'id')->toArray();
+            })
+        });*/
     }
 
     /**
